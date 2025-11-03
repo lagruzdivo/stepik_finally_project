@@ -1,7 +1,7 @@
 from selenium.webdriver.common.by import By
 
 class MainPageLocators():
-    LOGIN_LINK = (By.CSS_SELECTOR, "#login_link")
+    pass
 
 class LoginPageLocators():
     LOGIN_FORM = (By.CSS_SELECTOR, "#login_form")
@@ -14,4 +14,17 @@ class ProductPageLocators():
     PRODUCT_NAME = (By.CSS_SELECTOR, ".product_main h1")
     BASKET_TOTAL = (By.CSS_SELECTOR, ".alert-info strong") # цена указанная в сообщении стоимости корзины
     PRODUCT_PRICE = (By.CSS_SELECTOR, ".product_main .price_color") # цена у товара
+
+class BasePageLocators():
+    LOGIN_LINK = (By.CSS_SELECTOR, "#login_link")
+    LOGIN_LINK_INVALID = (By.CSS_SELECTOR, "#login_link_inc")
+
+class BasketPageLocators():
+    BASKET_BUTTON = (By.CSS_SELECTOR, '.btn-group .btn-default:first-child')
+
+    # Блоки с товарами в корзине (проверить в браузере)
+    BASKET_ITEMS = (By.CSS_SELECTOR, ".basket-items") # Элементы товаров в корзине
+
+    # Сообщение "Ваша корзина пуста" (проверить в браузере)
+    EMPTY_BASKET_MESSAGE = (By.CSS_SELECTOR, "#content_inner > p") # Сообщение "Ваша корзина пуста"
 
