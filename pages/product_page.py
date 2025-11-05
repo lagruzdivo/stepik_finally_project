@@ -1,15 +1,12 @@
-from selenium.common import TimeoutException
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException
 from .base_page import BasePage
 from .locators import ProductPageLocators
 
 class ProductPage(BasePage):
-    def add_to_basket(self):  #  метод добавления в корзину
+    def add_to_basket(self, should_solve_quiz=False):  #  метод добавления в корзину
         button_add_to_basket = self.browser.find_element(*ProductPageLocators.ADD_TO_BASKET)
         button_add_to_basket.click() # клик добавить в корзину
-        # self.solve_quiz_and_get_code()  # обработка промо-аллерта ПОСЛЕ добавления
+        if should_solve_quiz:
+            self.solve_quiz_and_get_code()  # обработка промо-алерта ПОСЛЕ добавления
 
     def should_be_add_success_message(self):
         assert self.is_element_present(*ProductPageLocators.SUCCESS_MESSAGE), "There is no success message"
