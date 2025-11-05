@@ -1,6 +1,7 @@
-from pages.product_page import ProductPage
-from pages.basket_page import BasketPage
-from pages.base_page import BasePage
+from .pages.login_page import LoginPage
+from .pages.product_page import ProductPage
+from .pages.basket_page import BasketPage
+from .pages.base_page import BasePage
 import time
 import pytest
 
@@ -68,3 +69,35 @@ def test_quest_cant_see_product_in_basket_opened_from_main_page(browser):
     # Создаем объект страницы корзины и проверяем что она пуста
     basket_page = BasketPage(browser, browser.current_url)
     basket_page.should_be_empty_basket()
+
+@pytest.mark.login_user
+class TestUserAddToBasketFromProductPage():
+    @pytest.fixture(scope="function", autouse=True)
+    def setup(self, browser):
+        # Открываем страницу логина/регистрации
+        login_link = "http://selenium1py.pythonanywhere.com/accounts/login/"
+        page = LoginPage(browser, login_link)
+        page.open()
+        # Регистрируем пользователя
+        email = str(time.time()) + "@fakemail.com"
+        password = "zzaaqqww1"
+        page.register_new_user(email, password)
+        time.sleep(5)
+        # Проверяем что пользователь залогинен
+        page.should_be_authorized_user()
+
+    def test_user_cant_see_success_message(self, browser):
+        link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
+        page = ProductPage(browser, link)
+        page.open()
+        page.should_not_be_success_message()
+
+    def test_user_can_add_product_to_basket(self, browser):
+        link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
+        page = ProductPage(browser, link)
+        page.open()  # открыли страницу товара
+        page.add_to_basket()  # нажали кнопку ДОБАВТЬ В КОРЗИНУ
+        #time.sleep(5)
+        page.should_be_add_success_message()
+        page.should_be_correct_product_name()
+        page.should_be_correct_basket_total()

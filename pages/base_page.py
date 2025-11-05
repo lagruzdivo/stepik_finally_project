@@ -24,6 +24,10 @@ class BasePage():
         assert self.is_element_present(*BasePageLocators.LOGIN_LINK), "Login link is not presented"
         # проверяем что есть ссылка, которая ведёт на логин
 
+    def should_be_authorized_user(self):
+        assert self.is_element_present(*BasePageLocators.USER_ICON), "User icon is not presented" \
+                                                                     " probably unauthorised user"
+
     def open(self): # открывает нужную страницу в браузере
         self.browser.get(self.url)
 
